@@ -11,10 +11,15 @@ import kotlinx.android.synthetic.main.item_pet_list.view.*
 
 class PetListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val dataList = ArrayList<Pet>()
+    private var onPetListItemClickListener: PetListItemClickListener? = null
     fun setData(petList: ArrayList<Pet>) {
         dataList.clear()
         dataList.addAll(petList)
         notifyItemChanged(0, dataList.size)
+    }
+
+    fun setPetListItemClickListener(onPetListItemClickListener: PetListItemClickListener){
+        this.onPetListItemClickListener = onPetListItemClickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -27,6 +32,9 @@ class PetListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         Glide.with(holder.itemView.context)
             .load(pet.imageURL)
             .into(holder.itemView.iv_pet_image)
+        holder.itemView.setOnClickListener {
+            onPetListItemClickListener?.onPetItemClicked(pet)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -34,4 +42,8 @@ class PetListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     private class PetListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    interface PetListItemClickListener {
+        fun onPetItemClicked(pet: Pet)
+    }
 }

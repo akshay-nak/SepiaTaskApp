@@ -1,15 +1,17 @@
 package com.learning.sepiataskapp.data.repository
 
 import com.google.gson.Gson
-import com.learning.sepiataskapp.data.model.Pet
 import com.learning.sepiataskapp.data.model.PetResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class PetRepository {
 
     /** Use this function to perform your network or database operation for fetching the pet list **/
-    fun fetchPetList(): PetResponse {
-        return  Gson().fromJson(stringResponse, PetResponse::class.java)
-    }
+    suspend fun fetchPetList(): PetResponse =
+        withContext(Dispatchers.IO) {
+            Gson().fromJson(stringResponse, PetResponse::class.java)
+        }
 
 
     private val stringResponse = "{\n" +

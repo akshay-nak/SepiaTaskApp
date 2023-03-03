@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learning.sepiataskapp.data.model.Pet
 import com.learning.sepiataskapp.data.repository.PetRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PetListViewModel : ViewModel() {
@@ -19,8 +18,7 @@ class PetListViewModel : ViewModel() {
 
 
     fun getPetList() {
-        //using Dispatchers.IO as we will be performing network or database operation to fetch the data
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val response = repository.fetchPetList()
             _petListLiveData.postValue(response.pets)
         }
