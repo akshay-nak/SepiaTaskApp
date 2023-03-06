@@ -43,6 +43,7 @@ class PetListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private class PetListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
+    //Added a interface to work as a listener to handle the recycler item click
     interface PetListItemClickListener {
         fun onPetItemClicked(pet: Pet)
     }

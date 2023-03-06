@@ -22,6 +22,7 @@ class PetListActivity : AppCompatActivity(), PetListAdapter.PetListItemClickList
 
         initView()
         initObservers()
+        viewModel.getConfig()
     }
 
     private fun initView() {
@@ -30,14 +31,15 @@ class PetListActivity : AppCompatActivity(), PetListAdapter.PetListItemClickList
             layoutManager = LinearLayoutManager(this@PetListActivity, RecyclerView.VERTICAL, false)
             adapter = petsAdapter
         }
-        viewModel.getConfig()
     }
 
     private fun initObservers() {
+        //Observe the pet list and set data to the recyclerview adapter
         viewModel.petListLiveData.observe(this) { petList ->
             petsAdapter.setData(petList)
         }
 
+        //Observe the configuration and decide on the application accessibility
         viewModel.configLiveData.observe(this) { allowAppUsage ->
             if (allowAppUsage) {
                 viewModel.getPetList()
@@ -53,6 +55,7 @@ class PetListActivity : AppCompatActivity(), PetListAdapter.PetListItemClickList
         startActivity(intent)
     }
 
+    /** show alert if the user opens the Application during not working time*/
     private fun showAppBlockedAlert() {
         AlertDialog.Builder(this).apply {
             setTitle(getString(R.string.alert_title))

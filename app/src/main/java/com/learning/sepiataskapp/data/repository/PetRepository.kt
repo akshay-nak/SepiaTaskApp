@@ -1,6 +1,5 @@
 package com.learning.sepiataskapp.data.repository
 
-import android.util.Log
 import com.google.gson.Gson
 import com.learning.sepiataskapp.data.model.ConfigResponse
 import com.learning.sepiataskapp.data.model.PetResponse
@@ -12,12 +11,13 @@ import java.util.*
 
 class PetRepository {
 
-    /** Use this function to perform your network or database operation for fetching the pet list **/
+    /** Performs network or database operation for fetching the pet list **/
     suspend fun fetchPetList(): PetResponse =
         withContext(Dispatchers.IO) {
             Gson().fromJson(Constants.PET_RESPONSE, PetResponse::class.java)
         }
 
+    /** Performs network or database operation to fetching the config for getting the working hours**/
     suspend fun allowAppAccess(): Boolean =
         withContext(Dispatchers.IO) {
             val response = Gson().fromJson(Constants.CONFIG, ConfigResponse::class.java)
@@ -25,6 +25,9 @@ class PetRepository {
             checkAccess(config?.workHours)
         }
 
+    /** Compares the current time with the working hours obtained from config and decide application usage
+     workHours: Working hours obtained from config
+     */
     private fun checkAccess(workHours: String?): Boolean {
         val currentTime = Calendar.getInstance()
         val currentDay = currentTime.get(Calendar.DAY_OF_WEEK)

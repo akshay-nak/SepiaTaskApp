@@ -15,6 +15,7 @@ class PetDetailsActivity : AppCompatActivity() {
 
     private fun initView() {
         val contentUrl = intent.getStringExtra("pet_content_url")
+        //Load the content URL in the WebView if the content url is not nul
         contentUrl?.let {
             web_view_pet_details.webViewClient = WebViewClient()
             web_view_pet_details.loadUrl(it)
