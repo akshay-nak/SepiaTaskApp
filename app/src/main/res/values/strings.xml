@@ -64,4 +64,7 @@
     }
   ]
 }</string>
+  <string name="alert_title">Alert!</string>
+  <string name="alert_message">"Application currently unaccasible "</string>
+  <string name="button_ok">Ok</string>
 </resources>

@@ -3,6 +3,7 @@ package com.learning.sepiataskapp.ui.petlist
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +22,6 @@ class PetListActivity : AppCompatActivity(), PetListAdapter.PetListItemClickList
 
         initView()
         initObservers()
-        viewModel.getPetList()
     }
 
     private fun initView() {
@@ -30,11 +30,20 @@ class PetListActivity : AppCompatActivity(), PetListAdapter.PetListItemClickList
             layoutManager = LinearLayoutManager(this@PetListActivity, RecyclerView.VERTICAL, false)
             adapter = petsAdapter
         }
+        viewModel.getConfig()
     }
 
     private fun initObservers() {
         viewModel.petListLiveData.observe(this) { petList ->
             petsAdapter.setData(petList)
+        }
+
+        viewModel.configLiveData.observe(this) { allowAppUsage ->
+            if (allowAppUsage) {
+                viewModel.getPetList()
+            } else {
+                showAppBlockedAlert()
+            }
         }
     }
 
@@ -42,5 +51,18 @@ class PetListActivity : AppCompatActivity(), PetListAdapter.PetListItemClickList
         val intent = Intent(this, PetDetailsActivity::class.java)
         intent.putExtra("pet_content_url", pet.contentURL)
         startActivity(intent)
+    }
+
+    private fun showAppBlockedAlert() {
+        AlertDialog.Builder(this).apply {
+            setTitle(getString(R.string.alert_title))
+            setMessage(R.string.alert_message)
+            setCancelable(false)
+            setPositiveButton(R.string.button_ok) { dialog, _ ->
+                dialog.dismiss()
+                finish()
+            }
+            show()
+        }
     }
 }

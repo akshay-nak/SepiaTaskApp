@@ -14,6 +14,10 @@ class PetListViewModel : ViewModel() {
     val petListLiveData: LiveData<ArrayList<Pet>>
         get() = _petListLiveData
 
+    private val _configLiveData = MutableLiveData<Boolean>()
+    val configLiveData: LiveData<Boolean>
+        get() = _configLiveData
+
     private val repository = PetRepository()
 
 
@@ -21,6 +25,13 @@ class PetListViewModel : ViewModel() {
         viewModelScope.launch {
             val response = repository.fetchPetList()
             _petListLiveData.postValue(response.pets)
+        }
+    }
+
+    fun getConfig() {
+        viewModelScope.launch {
+            val response = repository.allowAppAccess()
+            _configLiveData.postValue(response)
         }
     }
 }
