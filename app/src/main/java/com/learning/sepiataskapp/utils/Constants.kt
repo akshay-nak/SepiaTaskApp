@@ -3,7 +3,7 @@ package com.learning.sepiataskapp.utils
 class Constants {
     companion object {
         const val CONFIG = "{\"settings\": {\n" +
-            "\t\"workHours\" : \"M-F 9:00 - 18:00\"\n" +
+            "\"workHours\" : \"M-F 9:00 - 18:00\"\n" +
             "}}"
 
         const val PET_RESPONSE = "{\n" +
@@ -70,14 +70,6 @@ class Constants {
             "    }\n" +
             "  ]\n" +
             "}"
-
-        const val S=1
-        const val M=2
-        const val T=3
-        const val W=4
-        const val TH=5
-        const val F=6
-        const val SA=7
     }
 
 }
